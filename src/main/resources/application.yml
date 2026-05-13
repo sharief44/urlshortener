@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: url-shortener
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/urlshortener
+    username: 
+    password: 
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update        
+      # 'update' during development — creates/alters tables automatically
+      # In production this would be 'validate' — you'd use Flyway migrations
+    show-sql: true            
+      # Logs every SQL query — essential during development to catch N+1 problems
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # No password for local dev — add password config for production
+
+app:
+  base-url: http://localhost:8080   
+  # Used when constructing the full short URL in responses
+  # e.g. http://localhost:8080/abc123
+  jwt:
+    secret: your-very-long-secret-key-minimum-256-bits-for-HS256-algorithm
+    expiration-ms: 86400000         # 24 hours in milliseconds
+  url:
+    default-expiry-days: 30         # URLs expire after 30 days by default
+    max-urls-per-user: 50           # Authenticated users can create max 50 URLs
+    max-urls-anonymous: 5           # Anonymous users limited to 5
+  rate-limit:
+    max-requests-per-minute: 10     # Per IP for anonymous users
