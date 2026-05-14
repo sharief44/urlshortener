@@ -39,7 +39,7 @@ public class User {
 	private String role;
 	
 	@Column(nullable = false)
-	private Boolean is_Active;
+	private Boolean isActive;
 	
 	@Column(nullable = false,updatable = false)
 	private LocalDateTime created_At;
